@@ -114,7 +114,12 @@ header.scrolled { padding: 1rem 0; background: rgba(18,18,18,0.9); backdrop-filt
 .nav-inner { display: flex; justify-content: space-between; align-items: center; }
 
 /* LOGO SIZING (UPDATED) */
-.logo img { width: 200px; height: auto; transition: var(--transition-fast); display: block; }
+.logo img {
+    width: 200px;
+    height: auto;
+    transition: opacity 0.3s ease;
+    display: block;
+}
 .logo:hover img { opacity: 0.7; }
 
 .nav-links { display: flex; gap: 2.5rem; align-items: center; }
