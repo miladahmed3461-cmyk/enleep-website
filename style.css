@@ -358,7 +358,12 @@ header.scrolled { padding: 1rem 0; background: rgba(18,18,18,0.9); backdrop-filt
     FOOTER
     ========================================== */
 footer { padding: 80px 0 0; background-color: var(--color-bg-main); border-top: 1px solid var(--border-light); }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 4rem; }
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 6rem;
+}
 
 /* LOGO SIZING (UPDATED) */
 .footer-logo {
