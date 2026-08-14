@@ -516,3 +516,11 @@ footer { padding: 80px 0 0; background-color: var(--color-bg-main); border-top: 
         line-height: 1.7;
     }
 }
+/* iPhone/Safari safety: never hide content if animations fail */
+@media (max-width: 768px) {
+    .fade-up {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+    }
+}
