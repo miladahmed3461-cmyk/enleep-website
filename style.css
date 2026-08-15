@@ -924,6 +924,7 @@ footer {
    ========================================== */
 
 @media (max-width: 900px) {
+
     .nav-links {
         gap: 1.5rem;
     }
@@ -949,7 +950,13 @@ footer {
     }
 }
 
+
+/* ==========================================
+   TABLET / MOBILE NAVIGATION
+   ========================================== */
+
 @media (max-width: 768px) {
+
     section {
         padding: 90px 0;
     }
@@ -962,43 +969,72 @@ footer {
         width: 150px;
     }
 
+    /* Hide desktop navigation */
     .nav-links {
         display: none;
     }
-.nav-links.active {
-    display: flex;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-    padding: 1.5rem 5%;
-    background: rgba(18, 18, 18, 0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border-light);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-    z-index: 105;
-}
 
-.nav-links.active a.nav-item {
-    width: 100%;
-    padding: 0.9rem 0;
-}
-
-.nav-links.active .nav-cta {
-    margin-top: 0.5rem;
-}
+    /* Mobile menu button */
     .menu-btn {
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
         z-index: 110;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        color: #fff;
+        font-size: 1.8rem;
+        line-height: 1;
+        cursor: pointer;
     }
 
+    /*
+       IMPORTANT:
+       JavaScript adds .active.
+       This makes the navigation actually appear.
+    */
+    .nav-links.active {
+        display: flex;
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 5%;
+        right: 5%;
+
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 0;
+
+        padding: 1rem;
+
+        background: rgba(18, 18, 18, 0.98);
+        border: 1px solid var(--border-light);
+        border-radius: 18px;
+
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+
+        z-index: 105;
+    }
+
+    .nav-links.active .nav-item {
+        display: block;
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .nav-links.active .nav-cta {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    /* Services */
     .service-row {
         grid-template-columns: 40px 1fr;
         gap: 0.75rem;
@@ -1013,16 +1049,19 @@ footer {
         margin-top: 0.25rem;
     }
 
+    /* Process */
     .process-grid {
         grid-template-columns: 1fr;
         gap: 2.5rem;
     }
 
+    /* Why section */
     .why-section {
         padding: 4rem 5%;
         margin: 0;
     }
 
+    /* Footer */
     .footer-grid {
         grid-template-columns: 1fr;
         gap: 3rem;
@@ -1036,7 +1075,13 @@ footer {
     }
 }
 
+
+/* ==========================================
+   SMALL MOBILE
+   ========================================== */
+
 @media (max-width: 480px) {
+
     .container {
         padding: 0 6%;
     }
@@ -1061,5 +1106,10 @@ footer {
 
     .footer-logo {
         width: 170px;
+    }
+
+    .nav-links.active {
+        left: 6%;
+        right: 6%;
     }
 }
