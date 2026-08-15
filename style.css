@@ -965,7 +965,32 @@ footer {
     .nav-links {
         display: none;
     }
+.nav-links.active {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 1.5rem 5%;
+    background: rgba(18, 18, 18, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+    z-index: 105;
+}
 
+.nav-links.active a.nav-item {
+    width: 100%;
+    padding: 0.9rem 0;
+}
+
+.nav-links.active .nav-cta {
+    margin-top: 0.5rem;
+}
     .menu-btn {
         display: flex;
         align-items: center;
