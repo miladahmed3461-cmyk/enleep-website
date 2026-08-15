@@ -356,7 +356,7 @@ header.scrolled {
     display: grid;
     grid-template-columns: 60px 1.4fr 1fr;
     align-items: center;
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
     border-bottom: 1px solid var(--border-light);
     cursor: pointer;
     transition: var(--transition-smooth);
