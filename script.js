@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }, { passive: true });
     }
 
-
     /* ==========================================
        MOBILE NAVIGATION MENU
        ========================================== */
@@ -19,30 +18,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const navLinks = document.getElementById('nav-links');
 
     if (menuBtn && navLinks) {
-
         menuBtn.addEventListener('click', function () {
-
             const isOpen = navLinks.classList.toggle('active');
-
             menuBtn.setAttribute('aria-expanded', isOpen);
-
         });
-
 
         /* Close menu when a navigation link is clicked */
         navLinks.querySelectorAll('a').forEach(function (link) {
-
             link.addEventListener('click', function () {
                 navLinks.classList.remove('active');
                 menuBtn.setAttribute('aria-expanded', 'false');
             });
-
         });
-
 
         /* Close menu when clicking outside */
         document.addEventListener('click', function (event) {
-
             if (
                 !navLinks.contains(event.target) &&
                 !menuBtn.contains(event.target)
@@ -50,11 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 navLinks.classList.remove('active');
                 menuBtn.setAttribute('aria-expanded', 'false');
             }
-
         });
-
     }
-
 
     /* ==========================================
        SCROLL REVEAL
@@ -62,19 +49,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const fadeElements = document.querySelectorAll('.fade-up');
 
     if ('IntersectionObserver' in window) {
-
         const observer = new IntersectionObserver(
             function (entries) {
-
                 entries.forEach(function (entry) {
-
                     if (entry.isIntersecting) {
                         entry.target.classList.add('in-view');
                         observer.unobserve(entry.target);
                     }
-
                 });
-
             },
             {
                 threshold: 0.1
@@ -84,15 +66,11 @@ document.addEventListener('DOMContentLoaded', function () {
         fadeElements.forEach(function (element) {
             observer.observe(element);
         });
-
     } else {
-
         fadeElements.forEach(function (element) {
             element.classList.add('in-view');
         });
-
     }
-
 
     /* ==========================================
        FAQ ACCORDION
@@ -100,11 +78,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const faqQuestions = document.querySelectorAll('.faq-question');
 
     faqQuestions.forEach(function (question) {
-
         question.addEventListener('click', function () {
-
-            const currentlyExpanded =
-                question.getAttribute('aria-expanded') === 'true';
+            const currentlyExpanded = question.getAttribute('aria-expanded') === 'true';
 
             faqQuestions.forEach(function (item) {
                 item.setAttribute('aria-expanded', 'false');
@@ -114,9 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 'aria-expanded',
                 currentlyExpanded ? 'false' : 'true'
             );
-
         });
-
     });
 
 });
