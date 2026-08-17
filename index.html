@@ -59,7 +59,7 @@
                 <a href="#branding" class="nav-item">Brand Strategy</a>
                 <a href="#process" class="nav-item">Process</a>
                 <a href="#faq" class="nav-item">FAQ</a>
-                <a href="#contact" class="btn btn-primary nav-cta">Contact Us &rarr;</a>
+                <a href="#footer-contact" class="btn btn-primary nav-cta">Contact Us &rarr;</a>
             </nav>
         </div>
     </header>
@@ -72,7 +72,7 @@
                     <h1>The right creators.<br>Better campaigns.<br><span class="text-accent-gradient">Results that matter.</span></h1>
                     <p>We find creators who fit your brand, your audience, and your goals — then help turn those relationships into content people want to see.</p>
                     <div class="btn-wrap">
-                        <a href="#contact" class="btn btn-primary">Let's talk &rarr;</a>
+                        <a href="#footer-contact" class="btn btn-primary">Let's talk &rarr;</a>
                         <a href="#process" class="btn btn-subtle">See how we work &darr;</a>
                     </div>
                 </div>
@@ -257,38 +257,150 @@
         </section>
 
         <!-- DUAL CTA (For Brands & Creators) -->
-        <section class="cta-section" id="contact">
-            <div class="container">
-                <div class="cta-header">
-                    <h2 class="fade-up">Have something in mind?<br>Let's talk<span class="dot-gold">.</span></h2>
-                </div>
-                <div class="dual-contact fade-up delay-1">
-                    <!-- For Brands -->
-                    <div class="contact-card primary-card">
-                        <div>
-                            <span class="eyebrow">For Brands</span>
-                            <h3>Start a Conversation</h3>
-                            <p>Tell us what you're working on and what you want to achieve. We'll take it from there.</p>
-                        </div>
-                        <div>
-                            <a href="mailto:milad@enleep.org" class="btn btn-primary">Start a Conversation &rarr;</a>
-                        </div>
+        <!-- PROJECT CONTACT -->
+<section id="footer-contact" class="contact-section">
+    <div class="container contact-container">
+
+        <span class="eyebrow contact-eyebrow fade-up">
+            LET'S TALK
+        </span>
+
+        <h2 class="contact-heading fade-up delay-1">
+            Have a project in mind?<br>Let's talk.
+        </h2>
+
+        <p class="contact-description fade-up delay-2">
+            Tell us a little about what you're working on. Whether you're a brand planning a campaign or a creator looking for the right partnership, we'd love to hear from you.
+        </p>
+
+        <form id="contact-form"
+              class="contact-form fade-up delay-3"
+              action="mailto:milad@enleep.org"
+              method="POST"
+              enctype="text/plain">
+
+            <p class="form-prompt">What brings you here?</p>
+
+            <div class="checkbox-group">
+
+                <label class="checkbox-label">
+                    <input type="checkbox"
+                           id="check-brand"
+                           name="Role"
+                           value="Brand">
+                    I'm a brand looking to work with creators
+                </label>
+
+                <label class="checkbox-label">
+                    <input type="checkbox"
+                           id="check-creator"
+                           name="Role"
+                           value="Creator">
+                    I'm a creator looking for brand opportunities
+                </label>
+
+            </div>
+
+            <div id="role-error" class="error-text">
+                &#9888; This field is required.
+            </div>
+
+            <!-- BRAND FIELDS -->
+            <div id="dynamic-fields-brand" class="dynamic-fields">
+                <div class="dynamic-fields-inner">
+
+                    <input type="text"
+                           name="Company_Name"
+                           placeholder="Company Name"
+                           class="form-input">
+
+                    <input type="url"
+                           name="Website_Address"
+                           placeholder="Website Address"
+                           class="form-input">
+
+                    <div class="input-row">
+                        <input type="text"
+                               name="Name"
+                               placeholder="Name"
+                               class="form-input">
+
+                        <input type="text"
+                               name="Title"
+                               placeholder="Title"
+                               class="form-input">
                     </div>
-                    
-                    <!-- For Creators -->
-                    <div class="contact-card secondary-card">
-                        <div>
-                            <span class="eyebrow">For Creators</span>
-                            <h3>Work With ENLEEP</h3>
-                            <p>Tell us a little about yourself, your content, and the kind of brands you want to work with.</p>
-                        </div>
-                        <div>
-                            <a href="mailto:collaboration@enleep.com" class="btn btn-outline">Introduce Yourself &rarr;</a>
-                        </div>
-                    </div>
+
+                    <input type="email"
+                           name="Email"
+                           placeholder="Email Address"
+                           class="form-input">
+
+                    <textarea name="Message"
+                              placeholder="Tell us about what you're looking for..."
+                              class="form-textarea"></textarea>
+
                 </div>
             </div>
-        </section>
+
+            <!-- CREATOR FIELDS -->
+            <div id="dynamic-fields-creator" class="dynamic-fields">
+                <div class="dynamic-fields-inner">
+
+                    <div class="input-row">
+                        <input type="text"
+                               name="Name"
+                               placeholder="Name"
+                               class="form-input">
+
+                        <input type="email"
+                               name="Email"
+                               placeholder="Email Address"
+                               class="form-input">
+                    </div>
+
+                    <input type="tel"
+                           name="Phone"
+                           placeholder="Phone Number"
+                           class="form-input">
+
+                    <input type="text"
+                           name="Source"
+                           placeholder="How did you hear about us?"
+                           class="form-input">
+
+                    <input type="url"
+                           name="Instagram"
+                           placeholder="Instagram URL"
+                           class="form-input">
+
+                    <input type="url"
+                           name="TikTok"
+                           placeholder="TikTok URL"
+                           class="form-input">
+
+                    <input type="url"
+                           name="YouTube"
+                           placeholder="YouTube URL"
+                           class="form-input">
+
+                    <textarea name="Message"
+                              placeholder="Tell us about your content..."
+                              class="form-textarea"></textarea>
+
+                </div>
+            </div>
+
+            <button type="submit"
+                    class="submit-button"
+                    id="submit-btn">
+                Start the conversation &rarr;
+            </button>
+
+        </form>
+
+    </div>
+</section>
     </main>
 
     <!-- FOOTER -->
