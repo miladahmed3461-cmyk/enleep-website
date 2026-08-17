@@ -119,5 +119,90 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+/* =========================================================
+   DYNAMIC CONTACT FORM
+   ========================================================= */
 
+const checkBrand = document.getElementById('check-brand');
+const checkCreator = document.getElementById('check-creator');
+const fieldsBrand = document.getElementById('dynamic-fields-brand');
+const fieldsCreator = document.getElementById('dynamic-fields-creator');
+const roleError = document.getElementById('role-error');
+const contactForm = document.getElementById('contact-form');
+
+if (
+    checkBrand &&
+    checkCreator &&
+    fieldsBrand &&
+    fieldsCreator &&
+    contactForm
+) {
+
+    function toggleFields(container, enable) {
+        container.querySelectorAll('input, textarea').forEach(input => {
+            input.disabled = !enable;
+            input.required = enable;
+        });
+    }
+
+    // Start with both sections hidden
+    toggleFields(fieldsBrand, false);
+    toggleFields(fieldsCreator, false);
+
+    // Brand selection
+    checkBrand.addEventListener('change', function () {
+
+        if (this.checked) {
+            checkCreator.checked = false;
+
+            fieldsBrand.classList.add('is-visible');
+            fieldsCreator.classList.remove('is-visible');
+
+            toggleFields(fieldsBrand, true);
+            toggleFields(fieldsCreator, false);
+
+            if (roleError) {
+                roleError.style.display = 'none';
+            }
+
+        } else {
+            fieldsBrand.classList.remove('is-visible');
+            toggleFields(fieldsBrand, false);
+        }
+    });
+
+    // Creator selection
+    checkCreator.addEventListener('change', function () {
+
+        if (this.checked) {
+            checkBrand.checked = false;
+
+            fieldsCreator.classList.add('is-visible');
+            fieldsBrand.classList.remove('is-visible');
+
+            toggleFields(fieldsCreator, true);
+            toggleFields(fieldsBrand, false);
+
+            if (roleError) {
+                roleError.style.display = 'none';
+            }
+
+        } else {
+            fieldsCreator.classList.remove('is-visible');
+            toggleFields(fieldsCreator, false);
+        }
+    });
+
+    // Require Brand or Creator selection
+    contactForm.addEventListener('submit', function (e) {
+
+        if (!checkBrand.checked && !checkCreator.checked) {
+            e.preventDefault();
+
+            if (roleError) {
+                roleError.style.display = 'flex';
+            }
+        }
+    });
+}
 });
