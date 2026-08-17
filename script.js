@@ -147,7 +147,18 @@ if (
 
     // Start with both sections hidden
     toggleFields(fieldsBrand, false);
-    toggleFields(fieldsCreator, false);
+    toggleFields(fieldsCreator, false)function toggleFields(container, enable) {
+    container.querySelectorAll('input, textarea').forEach(input => {
+        input.disabled = !enable;
+
+        // Only Name and Email are mandatory
+        if (input.name === 'name' || input.name === 'email') {
+            input.required = enable;
+        } else {
+            input.required = false;
+        }
+    });
+}
 
     // Brand selection
     checkBrand.addEventListener('change', function () {
