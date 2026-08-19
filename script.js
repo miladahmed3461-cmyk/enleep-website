@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
             e.stopPropagation(); // Prevent document click from immediately closing it
             const isOpen = navLinks.classList.toggle('active');
             menuBtn.setAttribute('aria-expanded', isOpen);
+            menuBtn.innerHTML = isOpen ? '&#10005;' : '&#9776;'; // Switch between X and Hamburger
         });
 
         // Close menu when a navigation link is clicked
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
             link.addEventListener('click', function () {
                 navLinks.classList.remove('active');
                 menuBtn.setAttribute('aria-expanded', 'false');
+                menuBtn.innerHTML = '&#9776;';
             });
         });
 
@@ -55,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ) {
                 navLinks.classList.remove('active');
                 menuBtn.setAttribute('aria-expanded', 'false');
+                menuBtn.innerHTML = '&#9776;';
             }
         });
 
@@ -63,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (event.key === 'Escape' && navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
                 menuBtn.setAttribute('aria-expanded', 'false');
+                menuBtn.innerHTML = '&#9776;';
             }
         });
     }
@@ -78,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('in-view');
-                        // Optional: Unobserve after revealing if you only want it to animate once
                         observer.unobserve(entry.target);
                     }
                 });
@@ -119,101 +122,115 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-/* =========================================================
-   DYNAMIC CONTACT FORM
-   ========================================================= */
 
-const checkBrand = document.getElementById('check-brand');
-const checkCreator = document.getElementById('check-creator');
-const fieldsBrand = document.getElementById('dynamic-fields-brand');
-const fieldsCreator = document.getElementById('dynamic-fields-creator');
-const roleError = document.getElementById('role-error');
-const contactForm = document.getElementById('contact-form');
+    /* =========================================================
+       DYNAMIC CONTACT FORM
+       ========================================================= */
+    const checkBrand = document.getElementById('check-brand');
+    const checkCreator = document.getElementById('check-creator');
+    const fieldsBrand = document.getElementById('dynamic-fields-brand');
+    const fieldsCreator = document.getElementById('dynamic-fields-creator');
+    const roleError = document.getElementById('role-error');
+    const contactForm = document.getElementById('contact-form');
 
-if (
-    checkBrand &&
-    checkCreator &&
-    fieldsBrand &&
-    fieldsCreator &&
-    contactForm
-) {
+    if (
+        checkBrand &&
+        checkCreator &&
+        fieldsBrand &&
+        fieldsCreator &&
+        contactForm
+    ) {
 
-    function toggleFields(container, enable) {
-        container.querySelectorAll('input, textarea').forEach(input => {
-            input.disabled = !enable;
-            input.required = enable;
+        function toggleFields(container, enable) {
+            container.querySelectorAll('input, textarea').forEach(input => {
+                input.disabled = !enable;
+
+                // Safely check name attribute for mandatory fields (Name and Email only)
+                const fieldName = (input.name || '').toLowerCase();
+                if (fieldName === 'name' || fieldName === 'email') {
+                    input.required = enable;
+                } else {
+                    input.required = false;
+                }
+            });
+        }
+
+        // Start with both sections hidden
+        toggleFields(fieldsBrand, false);
+        toggleFields(fieldsCreator, false);
+
+        // Brand selection
+        checkBrand.addEventListener('change', function () {
+            if (this.checked) {
+                checkCreator.checked = false;
+
+                fieldsBrand.classList.add('is-visible');
+                fieldsCreator.classList.remove('is-visible');
+
+                toggleFields(fieldsBrand, true);
+                toggleFields(fieldsCreator, false);
+
+                if (roleError) {
+                    roleError.style.display = 'none';
+                }
+
+            } else {
+                fieldsBrand.classList.remove('is-visible');
+                toggleFields(fieldsBrand, false);
+            }
+        });
+
+        // Creator selection
+        checkCreator.addEventListener('change', function () {
+            if (this.checked) {
+                checkBrand.checked = false;
+
+                fieldsCreator.classList.add('is-visible');
+                fieldsBrand.classList.remove('is-visible');
+
+                toggleFields(fieldsCreator, true);
+                toggleFields(fieldsBrand, false);
+
+                if (roleError) {
+                    roleError.style.display = 'none';
+                }
+
+            } else {
+                fieldsCreator.classList.remove('is-visible');
+                toggleFields(fieldsCreator, false);
+            }
+        });
+
+        // Require Brand or Creator selection
+        contactForm.addEventListener('submit', function (e) {
+            if (!checkBrand.checked && !checkCreator.checked) {
+                e.preventDefault();
+
+                if (roleError) {
+                    roleError.style.display = 'flex';
+                }
+            }
+        });
+
+        // Intercept CTA clicks to pre-open the form smoothly
+        document.querySelectorAll('.nav-cta').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetRole = btn.getAttribute('data-role');
+                
+                if (targetRole === 'brand' && !checkBrand.checked) {
+                    checkBrand.checked = true;
+                    checkBrand.dispatchEvent(new Event('change'));
+                } else if (targetRole === 'creator' && !checkCreator.checked) {
+                    checkCreator.checked = true;
+                    checkCreator.dispatchEvent(new Event('change'));
+                }
+
+                // Slight delay to allow scrolling before focusing input
+                setTimeout(() => {
+                    const visibleInput = document.querySelector('.dynamic-fields.is-visible input');
+                    if(visibleInput) visibleInput.focus();
+                }, 500); 
+            });
         });
     }
-
-    // Start with both sections hidden
-    toggleFields(fieldsBrand, false);
-    toggleFields(fieldsCreator, false)function toggleFields(container, enable) {
-    container.querySelectorAll('input, textarea').forEach(input => {
-        input.disabled = !enable;
-
-        // Only Name and Email are mandatory
-        if (input.name === 'name' || input.name === 'email') {
-            input.required = enable;
-        } else {
-            input.required = false;
-        }
-    });
-}
-
-    // Brand selection
-    checkBrand.addEventListener('change', function () {
-
-        if (this.checked) {
-            checkCreator.checked = false;
-
-            fieldsBrand.classList.add('is-visible');
-            fieldsCreator.classList.remove('is-visible');
-
-            toggleFields(fieldsBrand, true);
-            toggleFields(fieldsCreator, false);
-
-            if (roleError) {
-                roleError.style.display = 'none';
-            }
-
-        } else {
-            fieldsBrand.classList.remove('is-visible');
-            toggleFields(fieldsBrand, false);
-        }
-    });
-
-    // Creator selection
-    checkCreator.addEventListener('change', function () {
-
-        if (this.checked) {
-            checkBrand.checked = false;
-
-            fieldsCreator.classList.add('is-visible');
-            fieldsBrand.classList.remove('is-visible');
-
-            toggleFields(fieldsCreator, true);
-            toggleFields(fieldsBrand, false);
-
-            if (roleError) {
-                roleError.style.display = 'none';
-            }
-
-        } else {
-            fieldsCreator.classList.remove('is-visible');
-            toggleFields(fieldsCreator, false);
-        }
-    });
-
-    // Require Brand or Creator selection
-    contactForm.addEventListener('submit', function (e) {
-
-        if (!checkBrand.checked && !checkCreator.checked) {
-            e.preventDefault();
-
-            if (roleError) {
-                roleError.style.display = 'flex';
-            }
-        }
-    });
-}
 });
