@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
+    'use strict';
 
     /* ==========================================
        SETUP JS-DEPENDENT ANIMATIONS (Safe Fallback)
        ========================================== */
     // Add class to body so CSS knows JS is active and elements can be hidden before revealing.
-    // If JS fails, this class is never added, and elements remain fully visible.
     document.body.classList.add('js-ready');
 
     /* ==========================================
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /* ==========================================
-       MOBILE NAVIGATION MENU (Fully Fixed)
+       MOBILE NAVIGATION MENU
        ========================================== */
     const menuBtn = document.getElementById('menu-toggle');
     const navLinks = document.getElementById('nav-links');
@@ -32,10 +32,10 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Toggle menu on button click
         menuBtn.addEventListener('click', function (e) {
-            e.stopPropagation(); // Prevent document click from immediately closing it
+            e.stopPropagation(); 
             const isOpen = navLinks.classList.toggle('active');
             menuBtn.setAttribute('aria-expanded', isOpen);
-            menuBtn.innerHTML = isOpen ? '&#10005;' : '&#9776;'; // Switch between X and Hamburger
+            menuBtn.innerHTML = isOpen ? '&#10005;' : '&#9776;'; // Toggle Icon
         });
 
         // Close menu when a navigation link is clicked
@@ -67,12 +67,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 navLinks.classList.remove('active');
                 menuBtn.setAttribute('aria-expanded', 'false');
                 menuBtn.innerHTML = '&#9776;';
+                menuBtn.focus();
             }
         });
     }
 
     /* ==========================================
-       SCROLL REVEAL (Cleaned Up)
+       SCROLL REVEAL 
        ========================================== */
     const fadeElements = document.querySelectorAll('.fade-up');
 
@@ -82,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('in-view');
+                        // Optional: Unobserve to only animate once
                         observer.unobserve(entry.target);
                     }
                 });
@@ -96,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
             observer.observe(element);
         });
     } else {
-        // Fallback for very old browsers: immediately show elements
+        // Fallback for very old browsers
         fadeElements.forEach(function (element) {
             element.classList.add('in-view');
         });
@@ -145,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
             container.querySelectorAll('input, textarea').forEach(input => {
                 input.disabled = !enable;
 
-                // Safely check name attribute for mandatory fields (Name and Email only)
+                // Make Name and Email required when container is enabled
                 const fieldName = (input.name || '').toLowerCase();
                 if (fieldName === 'name' || fieldName === 'email') {
                     input.required = enable;
@@ -155,14 +157,14 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        // Start with both sections hidden
+        // Initialize Form State
         toggleFields(fieldsBrand, false);
         toggleFields(fieldsCreator, false);
 
-        // Brand selection
+        // Brand Checkbox Listener
         checkBrand.addEventListener('change', function () {
             if (this.checked) {
-                checkCreator.checked = false;
+                checkCreator.checked = false; // Mutually exclusive
 
                 fieldsBrand.classList.add('is-visible');
                 fieldsCreator.classList.remove('is-visible');
@@ -173,17 +175,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (roleError) {
                     roleError.style.display = 'none';
                 }
-
             } else {
                 fieldsBrand.classList.remove('is-visible');
                 toggleFields(fieldsBrand, false);
             }
         });
 
-        // Creator selection
+        // Creator Checkbox Listener
         checkCreator.addEventListener('change', function () {
             if (this.checked) {
-                checkBrand.checked = false;
+                checkBrand.checked = false; // Mutually exclusive
 
                 fieldsCreator.classList.add('is-visible');
                 fieldsBrand.classList.remove('is-visible');
@@ -194,14 +195,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (roleError) {
                     roleError.style.display = 'none';
                 }
-
             } else {
                 fieldsCreator.classList.remove('is-visible');
                 toggleFields(fieldsCreator, false);
             }
         });
 
-        // Require Brand or Creator selection
+        // Form Submit Validation
         contactForm.addEventListener('submit', function (e) {
             if (!checkBrand.checked && !checkCreator.checked) {
                 e.preventDefault();
@@ -210,27 +210,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     roleError.style.display = 'flex';
                 }
             }
-        });
-
-        // Intercept CTA clicks to pre-open the form smoothly
-        document.querySelectorAll('.nav-cta').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetRole = btn.getAttribute('data-role');
-                
-                if (targetRole === 'brand' && !checkBrand.checked) {
-                    checkBrand.checked = true;
-                    checkBrand.dispatchEvent(new Event('change'));
-                } else if (targetRole === 'creator' && !checkCreator.checked) {
-                    checkCreator.checked = true;
-                    checkCreator.dispatchEvent(new Event('change'));
-                }
-
-                // Slight delay to allow scrolling before focusing input
-                setTimeout(() => {
-                    const visibleInput = document.querySelector('.dynamic-fields.is-visible input');
-                    if(visibleInput) visibleInput.focus();
-                }, 500); 
-            });
         });
     }
 });
