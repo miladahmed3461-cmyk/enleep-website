@@ -36,7 +36,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    width: 100%;
+    width: 100%; /* Fixed horizontal overflow */
 }
 
 /* Accessibility: Visible Focus States */
@@ -46,22 +46,20 @@ body {
 }
 
 /* Ambient Orbs - Optimized for iOS Performance */
+/* Replaced expensive filter: blur() with hardware-friendly radial-gradients */
 .ambient-orb {
     position: fixed;
-    border-radius: 50%;
     z-index: -1;
     pointer-events: none;
-    transform: translateZ(0); 
+    border-radius: 50%;
 }
 .orb-1 { 
     top: -10%; left: -5%; width: 40vw; height: 40vw; 
-    background: radial-gradient(circle, var(--color-brand-teal) 0%, transparent 60%); 
-    opacity: 0.15; 
+    background: radial-gradient(circle, rgba(38, 122, 120, 0.15) 0%, transparent 70%); 
 }
 .orb-2 { 
     bottom: 0%; right: -10%; width: 45vw; height: 45vw; 
-    background: radial-gradient(circle, var(--color-brand-gold) 0%, transparent 60%); 
-    opacity: 0.08; 
+    background: radial-gradient(circle, rgba(198, 166, 117, 0.08) 0%, transparent 70%); 
 }
 
 /* Typography */
@@ -83,10 +81,7 @@ p {
     color: var(--color-text-muted);
 }
 
-.text-accent-gradient {
-    color: var(--color-brand-gold); 
-}
-
+.text-accent-gradient { color: var(--color-brand-gold); }
 .dot-teal { color: var(--color-brand-teal); }
 .dot-gold { color: var(--color-brand-gold); }
 .text-center { text-align: center; }
@@ -94,7 +89,7 @@ p {
 /* Layout */
 .container {
     width: 100%;
-    max-width: 1100px;
+    max-width: 1100px; 
     margin: 0 auto;
     padding: 0 5%;
 }
@@ -106,7 +101,7 @@ section {
 
 /* Prevent fixed header from overlapping anchor sections */
 section[id] {
-    scroll-margin-top: 80px; 
+    scroll-margin-top: 100px;
 }
 
 a {
@@ -174,21 +169,20 @@ a {
     background-color: rgba(255,255,255,0.04);
 }
 
-/* Scroll Animations - iOS Hardware Accelerated */
+/* Scroll Animations */
 .fade-up {
     transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
-    backface-visibility: hidden;
 }
 
 body.js-ready .fade-up:not(.in-view) {
     opacity: 0;
-    transform: translateY(20px) translateZ(0);
+    transform: translateY(20px);
 }
 
 body.js-ready .fade-up.in-view {
     opacity: 1;
-    transform: translateY(0) translateZ(0);
+    transform: translateY(0);
 }
 
 .delay-1 { transition-delay: 0.1s; }
@@ -443,7 +437,7 @@ header.scrolled {
     transition: var(--transition-smooth);
 }
 
-.step:hover::before { background: var(--color-brand-teal); }
+.step:hover::before { background: var(--color-brand-gold); }
 
 .step-num {
     font-size: 1rem;
@@ -623,10 +617,7 @@ header.scrolled {
     background: rgba(255, 255, 255, 0.02);
     cursor: pointer;
     position: relative;
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .checkbox-label input[type="checkbox"]:hover {
@@ -667,10 +658,7 @@ header.scrolled {
     grid-template-rows: 0fr;
     opacity: 0;
     margin: 0;
-    transition:
-        grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        opacity 0.25s ease,
-        margin 0.4s ease;
+    transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, margin 0.4s ease;
 }
 
 .dynamic-fields.is-visible {
@@ -711,10 +699,7 @@ header.scrolled {
     font-size: 0.9rem;
     line-height: 1.4;
     padding: 0.85rem 1rem;
-    transition:
-        border-color 0.25s ease,
-        background-color 0.25s ease,
-        box-shadow 0.25s ease;
+    transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .form-input {
@@ -848,6 +833,7 @@ footer {
    RESPONSIVE / MOBILE 
    ========================================== */
 
+/* Tablet & Smaller Desktop */
 @media (max-width: 900px) {
     .nav-links { gap: 1.5rem; }
     .logo img { width: 160px; }
@@ -855,6 +841,7 @@ footer {
     .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
+/* Core Mobile Breakpoint */
 @media (max-width: 768px) {
     section { padding: 80px 0; }
     header { padding: 1rem 0; }
@@ -904,8 +891,10 @@ footer {
         margin-top: 1rem;
     }
 
+    /* Layout Adjustments */
     .hero { min-height: 70vh; padding-top: 100px; padding-bottom: 40px; }
     
+    /* Services rows stacked */
     .service-row {
         grid-template-columns: 40px 1fr;
         gap: 0.5rem;
@@ -921,9 +910,10 @@ footer {
     }
 
     .service-row:hover {
-        padding-left: 0.5rem; 
+        padding-left: 0.5rem; /* Cancel desktop hover shift on mobile */
     }
 
+    /* Footer Mobile */
     .footer-grid {
         grid-template-columns: 1fr;
         gap: 2.5rem;
@@ -936,6 +926,7 @@ footer {
         gap: 1rem;
     }
 
+    /* Contact Form Tablet/Mobile */
     .contact-section { padding: 90px 0 100px; }
     .contact-container { max-width: 100%; }
     .contact-heading { font-size: clamp(2.2rem, 8vw, 3rem); }
@@ -945,6 +936,7 @@ footer {
     .submit-button { width: auto; }
 }
 
+/* Small Mobile Breakpoint */
 @media (max-width: 480px) {
     html { font-size: 14px; }
     .container { padding: 0 6%; }
@@ -967,6 +959,7 @@ footer {
         right: 4%;
     }
 
+    /* Contact Form Small Mobile */
     .contact-section { padding: 75px 0 85px; }
     .contact-heading { font-size: 2.25rem; letter-spacing: -0.03em; }
     .contact-description { font-size: 0.9rem; line-height: 1.65; }
@@ -974,5 +967,4 @@ footer {
     .dynamic-fields.is-visible { margin-bottom: 1.5rem; }
     .form-input, .form-textarea { font-size: 16px; } /* Prevents iOS zoom */
     .submit-button { width: 100%; min-height: 50px; justify-content: center; }
-    .input-row { flex-direction: column; }
 }
