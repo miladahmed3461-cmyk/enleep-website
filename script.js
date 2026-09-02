@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
+    'use strict';
 
     /* ==========================================
-       SETUP JS-DEPENDENT ANIMATIONS
+       SETUP JS-DEPENDENT ANIMATIONS (Safe Fallback)
        ========================================== */
+    // Add class to body so CSS knows JS is active and elements can be hidden before revealing.
     document.body.classList.add('js-ready');
 
     /* ==========================================
@@ -28,13 +30,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (menuBtn && navLinks) {
         
+        // Toggle menu on button click
         menuBtn.addEventListener('click', function (e) {
             e.stopPropagation(); 
             const isOpen = navLinks.classList.toggle('active');
             menuBtn.setAttribute('aria-expanded', isOpen);
-            menuBtn.innerHTML = isOpen ? '&#10005;' : '&#9776;'; 
+            menuBtn.innerHTML = isOpen ? '&#10005;' : '&#9776;'; // Toggle Icon
         });
 
+        // Close menu when a navigation link is clicked
         const navItems = navLinks.querySelectorAll('a');
         navItems.forEach(function (link) {
             link.addEventListener('click', function () {
@@ -44,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
+        // Close menu when clicking outside of it
         document.addEventListener('click', function (event) {
             if (
                 navLinks.classList.contains('active') && 
@@ -56,11 +61,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        // Close menu on pressing Escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape' && navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
                 menuBtn.setAttribute('aria-expanded', 'false');
                 menuBtn.innerHTML = '&#9776;';
+                menuBtn.focus();
             }
         });
     }
@@ -76,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('in-view');
+                        // Optional: Unobserve to only animate once
                         observer.unobserve(entry.target);
                     }
                 });
@@ -90,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
             observer.observe(element);
         });
     } else {
+        // Fallback for very old browsers
         fadeElements.forEach(function (element) {
             element.classList.add('in-view');
         });
@@ -104,10 +113,12 @@ document.addEventListener('DOMContentLoaded', function () {
         question.addEventListener('click', function () {
             const currentlyExpanded = question.getAttribute('aria-expanded') === 'true';
 
+            // Close all others
             faqQuestions.forEach(function (item) {
                 item.setAttribute('aria-expanded', 'false');
             });
 
+            // Toggle clicked item
             if (!currentlyExpanded) {
                 question.setAttribute('aria-expanded', 'true');
             }
@@ -136,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
             container.querySelectorAll('input, textarea').forEach(input => {
                 input.disabled = !enable;
 
+                // Make Name and Email required when container is enabled
                 const fieldName = (input.name || '').toLowerCase();
                 if (fieldName === 'name' || fieldName === 'email') {
                     input.required = enable;
@@ -145,12 +157,14 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+        // Initialize Form State
         toggleFields(fieldsBrand, false);
         toggleFields(fieldsCreator, false);
 
+        // Brand Checkbox Listener
         checkBrand.addEventListener('change', function () {
             if (this.checked) {
-                checkCreator.checked = false; 
+                checkCreator.checked = false; // Mutually exclusive
 
                 fieldsBrand.classList.add('is-visible');
                 fieldsCreator.classList.remove('is-visible');
@@ -161,16 +175,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (roleError) {
                     roleError.style.display = 'none';
                 }
-
             } else {
                 fieldsBrand.classList.remove('is-visible');
                 toggleFields(fieldsBrand, false);
             }
         });
 
+        // Creator Checkbox Listener
         checkCreator.addEventListener('change', function () {
             if (this.checked) {
-                checkBrand.checked = false; 
+                checkBrand.checked = false; // Mutually exclusive
 
                 fieldsCreator.classList.add('is-visible');
                 fieldsBrand.classList.remove('is-visible');
@@ -181,13 +195,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (roleError) {
                     roleError.style.display = 'none';
                 }
-
             } else {
                 fieldsCreator.classList.remove('is-visible');
                 toggleFields(fieldsCreator, false);
             }
         });
 
+        // Form Submit Validation
         contactForm.addEventListener('submit', function (e) {
             if (!checkBrand.checked && !checkCreator.checked) {
                 e.preventDefault();
